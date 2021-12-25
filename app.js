@@ -6,19 +6,20 @@ const cookieParser = require('cookie-parser');
 const validationResult = require('express-validator');
 
 // import routes
+const authRoutes = require('./routes/auth')
 const userRoutes = require('./routes/user')
 
 // import controllers
 // const { signup } = require('./controllers/User')
 
 // app
-const app = express()
-require('dotenv').config()
+const app = express();
+require('dotenv').config();
 
 // ddb
 mongoose.connect(process.env.DATABASE, {
         useNewUrlParser: true,
-        // useCreateIndex:true
+        // useCreateIndex: true
     })
     .then(() => console.log('DB CONNECTED'));
 
@@ -30,6 +31,7 @@ app.use(cookieParser())
 
 
 // routes
+app.use('/api', authRoutes)
 app.use('/api', userRoutes)
 
 const port = process.env.PORT || 8000
